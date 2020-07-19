@@ -132,7 +132,11 @@ public class ThirdFrag extends Fragment {
                 builder.setMessage("Do you want to Delete this Supplier ?").setTitle("Delete Alert!")
                         .setCancelable(true)
                         .setPositiveButton("Yes", (dialog, id) -> {
-                            deleteSupWork(position);
+                            if(adapter1.getItemCount() == 0){
+                                deleteSupWork(position);
+                            } else {
+                                Snackbar.make( getView(), "Delete All itens First", Snackbar.LENGTH_LONG ).show();
+                            }
                         } )
                         .setNegativeButton("No", (dialog, id) -> dialog.cancel() );
 
