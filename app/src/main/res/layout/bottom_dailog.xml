@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/google_assistant_background"
+    android:paddingStart="@dimen/dimen_common_small"
+    android:paddingEnd="@dimen/dimen_common_small"
+    android:paddingBottom="@dimen/dimen_common"
+    android:paddingTop="@dimen/dimen_common_very_small">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_common_small"
+            android:layout_marginTop="@dimen/dimen_common_small"
+            android:textColor="@color/colorPrimary"
+            android:inputType="textNoSuggestions"
+            android:textSize="24sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv1"/>
+
+        <TextView
+            android:id="@+id/grandTotal1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/list1"
+            android:layout_marginStart="@dimen/dimen_common_small"
+            android:layout_marginTop="@dimen/dimen_common_small"
+            android:textColor="@color/colorPrimary"
+            android:inputType="textNoSuggestions"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/paidTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/grandTotal1"
+            android:layout_marginStart="@dimen/dimen_common_small"
+            android:layout_marginTop="@dimen/dimen_common_small"
+            android:textColor="@color/colorPrimary"
+            android:inputType="textNoSuggestions"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/paidTotal"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/dimen_common_small"
+            android:weightSum="2">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dimen_common_very_small"
+                android:layout_marginEnd="@dimen/dimen_common_small"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/paidAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Paid Amount"
+                    android:inputType="numberDecimal"
+                    android:maxLength="20" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addPayment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:text="Update Payment"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

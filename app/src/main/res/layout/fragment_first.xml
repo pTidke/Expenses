@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:id="@+id/nestedScrollView"
+    android:clickable="true"
+    android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:id="@+id/linerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/dimen_common"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/dimen_common">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ti1">
+
+            <AutoCompleteTextView
+                android:id="@+id/nameWork"
+                android:paddingStart="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:hint="Name of Work"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:minLines="1"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_common"
+            android:text="Enter Material Details"
+            android:textColor="@color/colorPrimary"
+            android:focusedByDefault="true"
+            android:textSize="@dimen/dimen_common"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ti2"
+            android:layout_marginTop="@dimen/dimen_common_small">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameMaterial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name of Material"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:minLines="1"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen_common"
+            android:id="@+id/ti3">
+
+            <AutoCompleteTextView
+                android:id="@+id/nameSupplier"
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:paddingStart="12dp"
+                android:hint="Name of Supplier"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:minLines="1"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen_common"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/dimen_common_small"
+            android:id="@+id/ti7">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:lines="2" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linerLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dimen_common"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/dimen_common_small"
+                android:id="@+id/ti4">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Quantity"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dimen_common"
+                android:layout_weight="1"
+                android:id="@+id/ti5"
+                android:layout_marginStart="@dimen/dimen_common_small">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Price"
+                    android:inputType="numberDecimal"
+                    android:lines="1"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linerLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dimen_common"
+            android:weightSum="2">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/datePicker"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                app:icon="@drawable/ic_date_range_black_24dp"
+                app:iconGravity="end"
+                android:textSize="16sp"
+                android:textAlignment="textStart"
+                android:clickable="true"
+                android:gravity="center|start"
+                android:text="Enter Date"
+                android:textColor="@color/gray_deep"
+                android:textAllCaps="false"
+                app:strokeColor="@color/gray"
+                android:focusedByDefault="true"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddMaterial"
+                style="@style/Widget.MaterialComponents.Button.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:gravity="center"
+                android:layout_marginStart="8dp"
+                android:text="Add Material"
+                android:textSize="16sp"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+
+                app:rippleColor="@color/color_ripple" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveWorkData"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="@dimen/dimen_common"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="18sp"
+            android:text="Save these work details"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:rippleColor="@color/color_ripple" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

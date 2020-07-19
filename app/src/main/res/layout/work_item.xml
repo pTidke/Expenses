@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewWork"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    app:strokeColor="@color/gray"
+    app:strokeWidth="1dp"
+    android:foreground="?attr/selectableItemBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dimen_common_small">
+
+
+        <TextView
+            android:id="@+id/nameCardWork"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text|textCapSentences|textNoSuggestions"
+            android:text="Name of Work"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/materials"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameCardWork"
+            android:layout_marginTop="2dp"
+            android:inputType="textNoSuggestions"
+            android:text="Number of items"
+            android:textSize="16sp"/>
+
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

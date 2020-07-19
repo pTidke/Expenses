@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "918587132605",
+    "firebase_url": "https://expensesrecordapp.firebaseio.com",
+    "project_id": "expensesrecordapp",
+    "storage_bucket": "expensesrecordapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918587132605:android:7c1c5c8f0266847eed85d4",
+        "android_client_info": {
+          "package_name": "com.example.expensesrecordapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "918587132605-kqkks3dcq0jad663efnvi2oka82iju0u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.expensesrecordapp",
+            "certificate_hash": "bbd9be232b7775384579649f07ea7d6b75bd1386"
+          }
+        },
+        {
+          "client_id": "918587132605-c4nhs97korf2qs3l7ak6d5hjkfan4i9f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrxvwdHB51CBwbivdohB6CAjqzP4HFrGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "918587132605-c4nhs97korf2qs3l7ak6d5hjkfan4i9f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
