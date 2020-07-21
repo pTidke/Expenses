@@ -123,6 +123,7 @@ public class FirstFrag extends Fragment implements View.OnClickListener {
                                 Log.d(TAG, "Document does not exist!");
                                 Map<String, Object> s = new HashMap<>(  );
                                 s.put( "payment", 0 );
+                                s.put( "paidDates", "" );
                                 s.put( "nameSupplier", mSupplier );
                                 s.put( "grandTotal", materialPrice * materialQuantity );
                                 payments.document( mSupplier ).set(s);

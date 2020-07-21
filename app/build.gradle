@@ -32,6 +32,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation "com.firebaseui:firebase-ui-firestore:6.2.1"
     implementation 'com.google.firebase:firebase-firestore:21.4.3'
+    implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'com.github.HendrixString:Android-PdfMyXml:v1.0.1'
     testImplementation 'junit:junit:4.12'
 
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'

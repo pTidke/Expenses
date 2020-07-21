@@ -1,7 +1,13 @@
 package com.example.expensesrecordapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,8 +35,24 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfWriter;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static com.google.common.reflect.Reflection.getPackageName;
 
 public class ThirdFrag extends Fragment {
 
@@ -47,6 +71,7 @@ public class ThirdFrag extends Fragment {
         return view;
     }
 
+
     private void setUpRecyclerView() {
         Query query = paymentsRef;
 
@@ -63,7 +88,7 @@ public class ThirdFrag extends Fragment {
 
         adapter.setOnItemClickListener( new SupplierAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(String nameSupplier, float payment, float grandTotal, int position) {
+            public void onItemClick(String nameSupplier, float payment, String paidDates2, float grandTotal, int position) {
 
                 BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog( Objects.requireNonNull( getContext() ) );
                 View dialogView = Objects.requireNonNull( getActivity() ).getLayoutInflater().inflate(R.layout.bottom_dailog, null);
@@ -72,12 +97,17 @@ public class ThirdFrag extends Fragment {
                 tv.setText(toTitleCase( nameSupplier ));
                 TextView tvPaidTotal = dialogView.findViewById( R.id.paidTotal );
                 TextView gt = dialogView.findViewById(R.id.grandTotal1);
+                TextView paidDates = dialogView.findViewById( R.id.paidDates );
+
+                //pdfSetup(dialogView, nameSupplier);
 
                 TextInputEditText paidAmount = dialogView.findViewById( R.id.paidAmount );
                 MaterialButton pay = dialogView.findViewById( R.id.addPayment );
+                MaterialButton print = dialogView.findViewById( R.id.print );
 
                 tvPaidTotal.setText( "Paid Amount : "  + payment);
                 gt.setText("Grand Total : " + grandTotal);
+                paidDates.setText( paidDates2 );
 
                 Query query1 = paymentsRef.document( nameSupplier ).collection( "materials" );
 
@@ -110,14 +140,33 @@ public class ThirdFrag extends Fragment {
 
                 pay.setOnClickListener( v -> {
                     try {
-                        paymentsRef.document(nameSupplier).update( "payment", FieldValue.increment( Float.parseFloat( Objects.requireNonNull( paidAmount.getText() ).toString())));
-                        paidAmount.setText( "" );
-                        mBottomSheetDialog.dismiss();
-                        hideKeyboard( v );
-                        Snackbar.make( Objects.requireNonNull( getView() ), "Payment Added Successfully!", Snackbar.LENGTH_LONG ).show();
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder( Objects.requireNonNull( getContext() ) );
+                        builder.setMessage("Payment amount is : Rs." + paidAmount.getText().toString()).setTitle("Payment Confirmation!")
+                                .setCancelable(true)
+                                .setPositiveButton( "Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        paymentsRef.document(nameSupplier).update( "payment", FieldValue.increment( Float.parseFloat( Objects.requireNonNull( paidAmount.getText() ).toString())));
+                                        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                                        paymentsRef.document(nameSupplier).update( "paidDates" , paidDates2 + paidAmount.getText().toString() + "Rs. : On " + date  + "\n" );
+                                        paidDates.append( paidAmount.getText().toString() + " : On " + date  + "\n");
+                                        hideKeyboard( v );
+                                        Snackbar.make( Objects.requireNonNull( getView() ), "Payment Added Successfully!", Snackbar.LENGTH_LONG ).show();
+                                    }
+                                } )
+                                .setNegativeButton("No", (dialog, id) -> dialog.cancel() );
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     }
                     catch (Exception e){
                         Toast.makeText( getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
+                    }
+                } );
+                print.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                     }
                 } );
 

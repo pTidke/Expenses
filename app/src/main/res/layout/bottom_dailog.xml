@@ -2,6 +2,7 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/myView"
     android:background="@color/google_assistant_background"
     android:paddingStart="@dimen/dimen_common_small"
     android:paddingEnd="@dimen/dimen_common_small"
@@ -50,10 +51,23 @@
             android:inputType="textNoSuggestions"
             android:textSize="20sp" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/paidDates"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/paidTotal"
+            android:layout_below="@+id/paidTotal"
+            android:layout_marginStart="@dimen/dimen_common_small"
+            android:layout_marginTop="@dimen/dimen_common_small"
+            android:textColor="@color/colorPrimary"
+            android:maxLines="25"
+            android:inputType="textMultiLine"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/paidDates"
             android:orientation="horizontal"
             android:layout_margin="@dimen/dimen_common_small"
             android:weightSum="2">
@@ -91,6 +105,22 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/print"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_below="@+id/layout"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:text="Print To Pdf"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 

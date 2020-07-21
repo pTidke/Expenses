@@ -60,6 +60,7 @@ public class SupplierAdapter extends FirestoreRecyclerAdapter<Supplier, Supplier
                     listener.onItemClick(
                             getSnapshots().getSnapshot(position).get( "nameSupplier" ).toString(),
                             Float.parseFloat( getSnapshots().getSnapshot(position).get( "payment" ).toString() ),
+                            getSnapshots().getSnapshot( position ).get( "paidDates" ).toString(),
                             Float.parseFloat( getSnapshots().getSnapshot(position).get( "grandTotal" ).toString() ),
                             position);
                 }
@@ -75,7 +76,7 @@ public class SupplierAdapter extends FirestoreRecyclerAdapter<Supplier, Supplier
     }
 
     public interface OnItemClickListener {
-        void onItemClick(String nameSupplier, float payment, float grandTotal, int position);
+        void onItemClick(String nameSupplier, float payment, String paidDates, float grandTotal, int position);
         void onItemLongClick(int position, View v);
     }
 
