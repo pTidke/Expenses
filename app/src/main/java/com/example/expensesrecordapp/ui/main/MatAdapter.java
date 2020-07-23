@@ -20,7 +20,6 @@ import java.util.List;
 public class MatAdapter extends FirestoreRecyclerAdapter<Material, MatAdapter.MatHolder> {
 
     private static onClickListner onclicklistner;
-    public static String invoice = "";
     public static List<List<String>> mats = new ArrayList<>(  );
 
     public MatAdapter(@NonNull FirestoreRecyclerOptions<Material> options) {
@@ -34,7 +33,6 @@ public class MatAdapter extends FirestoreRecyclerAdapter<Material, MatAdapter.Ma
         holder.nameCardDate.setText( new StringBuilder().append( "Date : " ).append( model.getDate() ).toString() );
         holder.nameCardQuantity.setText( new StringBuilder().append( "Quantity : " ).append( model.getQuantity() ).toString() );
         holder.nameCardTotal.setText( new StringBuilder().append( "Total Price : " ).append( model.getCostTotal() ).toString() );
-        invoice += model.getString() + "\n";
         List<String> m = new ArrayList<>( );
         m.add( model.getNameMaterial() );
         m.add( model.getDate() );
