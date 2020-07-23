@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -36,18 +41,24 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -61,6 +72,8 @@ public class ThirdFrag extends Fragment {
 
     private SupplierAdapter adapter;
     private MatAdapter adapter1;
+
+    private String fileName = "file.txt";
     
     View view;
 
@@ -71,6 +84,115 @@ public class ThirdFrag extends Fragment {
         return view;
     }
 
+    public String getStorageDir(String fileName) {
+        //create folder
+        File file = new File(getContext().getObbDir() + "/Invoices");
+        if (!file.mkdirs()) {
+            file.mkdirs();
+        }
+        String filePath = file.getAbsolutePath() + File.separator + fileName;
+        return filePath;
+    }
+
+    /*private void createPdf(String material, String items){
+        // create a new document
+        PdfDocument document = new PdfDocument();
+
+        // crate a page description
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(600, 1000, 1).create();
+
+        // start a page
+        PdfDocument.Page page = document.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
+        Paint paint = new Paint();
+        int color = ContextCompat.getColor( getContext(), R.color.colorPrimaryDark );
+        paint.setColor(color);
+        paint.setTextAlign( Paint.Align.CENTER );
+        paint.setTextSize( 20f );
+        canvas.drawText("Materials Invoice", page.getCanvas().getWidth() / 2 , 30, paint);
+        canvas.drawText(material.toUpperCase(), page.getCanvas().getWidth() / 2 , 60, paint);
+        paint.setColor( Color.BLACK );
+        paint.setTextSize( 16f );
+        canvas.drawText( items, 80, 80, paint );
+        // finish the page
+        document.finishPage(page);
+        // draw text on the graphics object of the page
+
+        // Create Page 2
+        pageInfo = new PdfDocument.PageInfo.Builder(300, 600, 2).create();
+        page = document.startPage(pageInfo);
+        canvas = page.getCanvas();
+        paint = new Paint();
+        paint.setColor(Color.BLUE);
+        canvas.drawCircle(100, 100, 100, paint);
+        document.finishPage(page);
+
+        String targetPdf = getStorageDir( "demo.pdf" );
+        File filePath = new File(targetPdf);
+
+        try {
+            document.writeTo(new FileOutputStream(filePath));
+            Toast.makeText(getContext(), "Done", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Log.e("main", "error "+e.toString());
+            Toast.makeText(getContext(), "Something wrong: " + e.toString(),  Toast.LENGTH_LONG).show();
+        }
+
+        // close the document
+        document.close();
+    }*/
+
+    private  void savepdf(String payDates, String Sup, float payment, float grandTotal)
+    {
+        Document doc = new Document();
+        String mfile = new SimpleDateFormat("HHmmss_yyyy_MM_dd", Locale.getDefault()).format(System.currentTimeMillis());
+        String mfilepath = getStorageDir( "INVOICE" + mfile + ".pdf" );
+        Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN,20, Font.BOLDITALIC);
+        Font small = new Font( Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD );
+        BaseColor color = new BaseColor( 99, 54, 82 );
+        smallBold.setColor( color );
+        try{
+            PdfWriter.getInstance(doc,new FileOutputStream(mfilepath));
+            doc.open();
+            String mtext = MatAdapter.invoice + "\n\n" + payDates;
+            doc.addAuthor("Ankush Kakde");
+            doc.addTitle( "Invoice" );
+            doc.addCreator( "Ankush Kakde" );
+            doc.add(new Paragraph( "Invoice", smallBold ) );
+            doc.add( new Paragraph( "Supplier Name : " + toTitleCase( Sup ) + "\n\n\n", small) );
+
+            float[] widths = {4, 4, 3, 4, 5, 6};
+            PdfPTable table = new PdfPTable(6);
+            table.setWidths( widths );
+            table.addCell( "Material" );
+            table.addCell( "Date" );
+            table.addCell( "Quantity" );
+            table.addCell( "Price(In Rs.)" );
+            table.addCell( "Total (In Rs.)" );
+            table.addCell( "Description" );
+            table.setWidthPercentage(100);
+            List<List<String>> dataset = MatAdapter.mats;
+            for (List<String> record : dataset) {
+                for (String field : record) {
+                    table.addCell(field);
+                }
+            }
+            doc.add(table);
+
+            doc.add(new Paragraph( "\nTimeline-\n" + payDates ));
+            doc.add( new Paragraph( "\nGrand Total : " + grandTotal, small) );
+            doc.add( new Paragraph( "Paid Amount : " + payment, small) );
+            doc.close();
+            MatAdapter.invoice = "";
+            MatAdapter.mats.clear();
+            Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getContext(),"This is Error msg : " +e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
     private void setUpRecyclerView() {
         Query query = paymentsRef;
@@ -78,6 +200,9 @@ public class ThirdFrag extends Fragment {
         FirestoreRecyclerOptions<Supplier> options = new FirestoreRecyclerOptions.Builder<Supplier>()
                 .setQuery( query, Supplier.class )
                 .build();
+
+        MatAdapter.invoice = "";
+        MatAdapter.mats.clear();
 
         adapter = new SupplierAdapter(options);
 
@@ -164,11 +289,20 @@ public class ThirdFrag extends Fragment {
                         Toast.makeText( getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT ).show();
                     }
                 } );
-                print.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-                } );
+
+                if (isExternalStorageAvailable() || isExternalStorageReadable()) {
+                    print.setOnClickListener( new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //writeData( getStorageDir( fileName ) );
+                            //createPdf( nameSupplier, MatAdapter.invoice.concat( "\n\n" + paidDates2 ) );
+                            savepdf(paidDates2, nameSupplier, payment, grandTotal);
+                            MatAdapter.invoice = "";
+                        }
+                    } );
+                } else {
+                    Toast.makeText( getContext(), "Error!", Toast.LENGTH_SHORT ).show();
+                }
 
                 mBottomSheetDialog.setContentView(dialogView);
                 mBottomSheetDialog.show();
@@ -212,6 +346,37 @@ public class ThirdFrag extends Fragment {
                 }
             }
         } );
+    }
+
+    //checks if external storage is available for read and write
+    public boolean isExternalStorageAvailable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    //checks if external storage is available for read
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    //write data to file
+    public void writeData(String filePath) {
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+            fileOutputStream.write(MatAdapter.invoice.getBytes());
+            fileOutputStream.close();
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static String toTitleCase(String str) {

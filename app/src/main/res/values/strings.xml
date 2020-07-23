@@ -46,8 +46,8 @@
     <string name="main_dialog_simple">Simple dialog</string>
     <string name="main_dialog_simple_title">A simple dialog</string>
     <string name="main_dialog_simple_message">
-        "A material metaphor is the unifying theory of a rationalized space and a system of motion. "
-        "\nThe material is grounded in tactile reality, inspired by the study of paper and ink, yet technologically advanced and open to imagination and magic."</string>
+        "A material metaphor \nis the unifying theory \nof a rationalized space and\n a system of motion. "
+        "\nThe material is grounded\n in tactile reality, \ninspired by the study of paper \nand ink, yet technologically \nadvanced and open \nto imagination and magic."</string>
     <string name="main_dialog_single_choice">Single choice dialog</string>
     <string name="main_dialog_multi_choice">Multi choice dialog</string>
     <string name="main_dialog_progress_title">Progress dialog…</string>

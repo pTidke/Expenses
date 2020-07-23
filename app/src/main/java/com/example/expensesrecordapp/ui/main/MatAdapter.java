@@ -1,5 +1,6 @@
 package com.example.expensesrecordapp.ui.main;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,14 @@ import com.example.expensesrecordapp.model.Material;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MatAdapter extends FirestoreRecyclerAdapter<Material, MatAdapter.MatHolder> {
 
     private static onClickListner onclicklistner;
+    public static String invoice = "";
+    public static List<List<String>> mats = new ArrayList<>(  );
 
     public MatAdapter(@NonNull FirestoreRecyclerOptions<Material> options) {
         super(options);
@@ -24,10 +30,19 @@ public class MatAdapter extends FirestoreRecyclerAdapter<Material, MatAdapter.Ma
     @Override
     protected void onBindViewHolder(@NonNull MatHolder holder, int position, @NonNull Material model) {
         holder.nameCardMaterial.setText( toTitleCase( model.getNameMaterial() ) );
-        holder.getNameCardMaterialDescription.setText("Description : " + model.getDescription());
-        holder.nameCardDate.setText("Date : " + model.getDate());
-        holder.nameCardQuantity.setText("Quantity : " + Integer.toString(model.getQuantity()));
-        holder.nameCardTotal.setText("Total Price : " + Float.toString(model.getCostTotal()));
+        holder.getNameCardMaterialDescription.setText( new StringBuilder().append( "Description : " ).append( model.getDescription() ).toString() );
+        holder.nameCardDate.setText( new StringBuilder().append( "Date : " ).append( model.getDate() ).toString() );
+        holder.nameCardQuantity.setText( new StringBuilder().append( "Quantity : " ).append( model.getQuantity() ).toString() );
+        holder.nameCardTotal.setText( new StringBuilder().append( "Total Price : " ).append( model.getCostTotal() ).toString() );
+        invoice += model.getString() + "\n";
+        List<String> m = new ArrayList<>( );
+        m.add( model.getNameMaterial() );
+        m.add( model.getDate() );
+        m.add( model.getQuantity() + "" );
+        m.add( model.getPrice() + "" );
+        m.add( model.getCostTotal() + "" );
+        m.add( model.getDescription() );
+        mats.add( m );
     }
 
     @NonNull
