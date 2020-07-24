@@ -61,6 +61,7 @@ public class FirstFrag extends Fragment implements View.OnClickListener {
         nestedScrollView = (NestedScrollView) inflater.inflate(R.layout.fragment_first, container, false);
         initViews();
         makeWorksList();
+        hideKeyboard( nestedScrollView );
         return  nestedScrollView;
     }
 
@@ -106,34 +107,31 @@ public class FirstFrag extends Fragment implements View.OnClickListener {
                     m = new Material( mMaterial, materialQuantity, materialPrice, mSupplier, date, materialPrice * materialQuantity, "");
                 }
 
-                payments.document(mSupplier).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Log.d(TAG, "Document exists!");
-                                payments.document( mSupplier ).collection( "materials" ).add( m );
-                                if (document.getData().get( "grandTotal" ).toString() != null){
-                                    payments.document( mSupplier )
-                                            .update( "grandTotal",
-                                                     materialPrice * materialQuantity + Float.parseFloat( document.getData().get( "grandTotal" ).toString() ) );
-                                }
-                            } else {
-                                Log.d(TAG, "Document does not exist!");
-                                Map<String, Object> s = new HashMap<>(  );
-                                s.put( "payment", 0 );
-                                s.put( "paidDates", "" );
-                                s.put( "nameSupplier", mSupplier );
-                                s.put( "grandTotal", materialPrice * materialQuantity );
-                                payments.document( mSupplier ).set(s);
-                                payments.document( mSupplier ).collection( "materials" ).document().set( m );
+                payments.document(mSupplier).get().addOnCompleteListener( task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "Document exists!");
+                            payments.document( mSupplier ).collection( "materials" ).add( m );
+                            if (document.getData().get( "grandTotal" ).toString() != null){
+                                payments.document( mSupplier )
+                                        .update( "grandTotal",
+                                                 materialPrice * materialQuantity + Float.parseFloat( document.getData().get( "grandTotal" ).toString() ) );
                             }
                         } else {
-                            Log.d(TAG, "Failed with: ", task.getException());
+                            Log.d(TAG, "Document does not exist!");
+                            Map<String, Object> s = new HashMap<>(  );
+                            s.put( "payment", 0 );
+                            s.put( "paidDates", "" );
+                            s.put( "nameSupplier", mSupplier );
+                            s.put( "grandTotal", materialPrice * materialQuantity );
+                            payments.document( mSupplier ).set(s);
+                            payments.document( mSupplier ).collection( "materials" ).document().set( m );
                         }
+                    } else {
+                        Log.d(TAG, "Failed with: ", task.getException());
                     }
-                });
+                } );
 
                 works.document( mWork ).get().addOnCompleteListener( task -> {
                     if (task.isSuccessful()) {
@@ -158,9 +156,9 @@ public class FirstFrag extends Fragment implements View.OnClickListener {
                 quantity.setText("");
                 price.setText("");
                 description.setText("");
-                datePicker.setText("Enter Date");
+                datePicker.setText( R.string.enter_date);
 
-                Snackbar.make( getView(), "Material Added Successfully", Snackbar.LENGTH_LONG ).show();
+                Snackbar.make( Objects.requireNonNull( getView() ), "Material Added Successfully", Snackbar.LENGTH_LONG ).show();
                 hideKeyboard( view );
 
             }
@@ -182,7 +180,7 @@ public class FirstFrag extends Fragment implements View.OnClickListener {
 
                 nameWork.setText("");
                 materialsList.clear();
-                Snackbar.make( getView(), "Work Added Successfully", Snackbar.LENGTH_LONG ).show();
+                Snackbar.make( Objects.requireNonNull( getView() ), "Work Added Successfully", Snackbar.LENGTH_LONG ).show();
                 hideKeyboard( view );
             }
             catch (Exception e){
@@ -227,10 +225,10 @@ public class FirstFrag extends Fragment implements View.OnClickListener {
         price = nestedScrollView.findViewById(R.id.price);
         nestedScrollView = nestedScrollView.findViewById(R.id.nestedScrollView);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(nestedScrollView.getContext(), android.R.layout.simple_dropdown_item_1line, allWorks);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>( nestedScrollView.getContext(), android.R.layout.simple_dropdown_item_1line, allWorks );
         nameWork.setAdapter(adapter);
 
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(nestedScrollView.getContext(), android.R.layout.simple_dropdown_item_1line, allSuppliers);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>( nestedScrollView.getContext(), android.R.layout.simple_dropdown_item_1line, allSuppliers );
         nameSupplier.setAdapter(adapter2);
 
         btnAddMaterial.setOnClickListener(this);

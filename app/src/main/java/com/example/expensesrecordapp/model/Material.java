@@ -59,23 +59,4 @@ public class Material{
     public float getCostTotal() {
         return costTotal;
     }
-
-    @Override
-    public String toString() {
-        return  "Material Name : " + nameMaterial + '\n' +
-                "\tDate : " + date + '\n' +
-                "\tQuantity : " + quantity + '\n' +
-                "\tPrice : " + price + '\n' +
-                "\tTotal Cost : " + costTotal + '\n' +
-                "\tDescription : " + description + '\n';
-    }
-
-    public String getString() {
-        return "" + nameMaterial + "          "
-                + date + "          "
-                + quantity + "           "
-                + price + "     "
-                + costTotal + "              "
-                + description;
-    }
 }

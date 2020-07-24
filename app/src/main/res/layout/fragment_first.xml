@@ -9,7 +9,6 @@
     android:focusableInTouchMode="true">
 
     <LinearLayout
-        android:id="@+id/linerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -21,8 +20,7 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/ti1">
+            android:layout_height="match_parent">
 
             <AutoCompleteTextView
                 android:id="@+id/nameWork"
@@ -39,7 +37,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_common"
@@ -52,7 +49,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/ti2"
             android:layout_marginTop="@dimen/dimen_common_small">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -72,8 +68,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dimen_common"
-            android:id="@+id/ti3">
+            android:layout_marginTop="@dimen/dimen_common">
 
             <AutoCompleteTextView
                 android:id="@+id/nameSupplier"
@@ -96,8 +91,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dimen_common"
             android:layout_weight="1"
-            android:layout_marginEnd="@dimen/dimen_common_small"
-            android:id="@+id/ti7">
+            android:layout_marginEnd="@dimen/dimen_common_small">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/description"
@@ -111,7 +105,6 @@
 
 
         <LinearLayout
-            android:id="@+id/linerLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -123,8 +116,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/dimen_common"
                 android:layout_weight="1"
-                android:layout_marginEnd="@dimen/dimen_common_small"
-                android:id="@+id/ti4">
+                android:layout_marginEnd="@dimen/dimen_common_small">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/quantity"
@@ -145,7 +137,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/dimen_common"
                 android:layout_weight="1"
-                android:id="@+id/ti5"
                 android:layout_marginStart="@dimen/dimen_common_small">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -164,7 +155,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linerLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

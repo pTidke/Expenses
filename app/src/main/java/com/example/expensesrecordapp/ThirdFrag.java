@@ -1,7 +1,8 @@
 package com.example.expensesrecordapp;
 
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -46,6 +47,7 @@ import java.util.Objects;
 
 public class ThirdFrag extends Fragment {
 
+    private static final int PICK_PDF_FILE = 2;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference paymentsRef = db.collection("payments");
 
@@ -64,18 +66,15 @@ public class ThirdFrag extends Fragment {
     public String getStorageDir(String fileName) {
         //create folder
         File file = new File( Objects.requireNonNull( getContext() ).getObbDir() + "/Invoices");
-        if (!file.mkdirs()) {
-            file.mkdirs();
-        }
+        if (!file.mkdirs()) file.mkdirs();
         return file.getAbsolutePath() + File.separator + fileName;
     }
 
     //Create Invoice pdf
-    private void savepdf(String payDates, String Sup, float payment, float grandTotal)
-    {
+    private void savepdf(String payDates, String Sup, float payment, float grandTotal) {
         Document doc = new Document();
-        String mfile = new SimpleDateFormat("_yyyy_MM_dd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis());
-        String mfilepath = getStorageDir( "INVOICE" + mfile + ".pdf" );
+        String mfile = new SimpleDateFormat("_yyyy_MM_dd", Locale.getDefault()).format(System.currentTimeMillis());
+        String mfilepath = getStorageDir( "INVOICE_" + Sup + mfile + ".pdf" );
         Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN,20, Font.BOLDITALIC);
         Font small = new Font( Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD );
         BaseColor color = new BaseColor( 99, 54, 82 );
@@ -112,13 +111,12 @@ public class ThirdFrag extends Fragment {
             doc.add( new Paragraph( "Paid Amount : " + payment, small) );
             doc.close();
             MatAdapter.mats.clear();
-            Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
+            Snackbar.make( getView(), "Invoice Created Successfully.", Snackbar.LENGTH_LONG ).show();
         }
         catch (Exception e)
         {
             Toast.makeText(getContext(),"This is Error msg : " +e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
     }
 
     //Setup and function recyclerview
@@ -219,7 +217,10 @@ public class ThirdFrag extends Fragment {
                     } );
 
                     if (isExternalStorageAvailable() || isExternalStorageReadable()) {
-                        print.setOnClickListener( v -> savepdf(paidDates2, nameSupplier, payment, grandTotal) );
+                        print.setOnClickListener( v -> {
+                            savepdf(paidDates2, nameSupplier, payment, grandTotal);
+                            mBottomSheetDialog.dismiss();
+                        } );
                     } else {
                         Toast.makeText( getContext(), "Error!", Toast.LENGTH_SHORT ).show();
                     }
@@ -240,10 +241,14 @@ public class ThirdFrag extends Fragment {
                     builder.setMessage("Do you want to Delete this Supplier ?").setTitle("Delete Alert!")
                             .setCancelable(true)
                             .setPositiveButton("Yes", (dialog, id) -> {
-                                if(adapter1.getItemCount() == 0){
-                                    deleteSupWork(position);
-                                } else {
-                                    Snackbar.make( Objects.requireNonNull( getView() ), "Delete All items First", Snackbar.LENGTH_LONG ).show();
+                                try {
+                                    if(adapter1.getItemCount() == 0){
+                                        deleteSupWork(position);
+                                    } else {
+                                        Snackbar.make( Objects.requireNonNull( getView() ), "Delete All items First", Snackbar.LENGTH_LONG ).show();
+                                    }
+                                } catch (Exception e){
+                                    Toast.makeText( getContext(), "Try Again", Toast.LENGTH_SHORT ).show();
                                 }
                             } )
                             .setNegativeButton("No", (dialog, id) -> dialog.cancel() );
